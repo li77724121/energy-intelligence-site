@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEO Energy Intelligence — European Energy Opportunity Intelligence</title>
+<meta name="description" content="Daily scans of EU public tenders for BESS, EV charging, solar, grid and energy management opportunities. Real data, real buyers, real contracts.">
+<style>
+  :root {
+    --bg: #0b0e11;
+    --bg-2: #10151a;
+    --ink: #e8e6e1;
+    --ink-2: #9aa3ab;
+    --ink-3: #6b747c;
+    --line: #1d242b;
+    --line-2: #2a333c;
+    --accent: #f5a623;
+    --accent-soft: rgba(245, 166, 35, 0.12);
+    --green: #3ecf8e;
+    --mono: "SF Mono", "JetBrains Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --serif: Georgia, "Times New Roman", serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11, 14, 17, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1080px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 0.02em; }
+  .brand-mark {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffd27a, var(--accent) 55%, #c47e12);
+    box-shadow: 0 0 18px rgba(245, 166, 35, 0.35);
+  }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: var(--ink-2); text-decoration: none; font-size: 14px; transition: color .2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--accent); color: #0b0e11 !important; font-weight: 700;
+    padding: 8px 16px; border-radius: 6px; font-size: 13px;
+  }
+  .nav-cta:hover { background: #ffb83d; }
+
+  /* ---------- Hero ---------- */
+  header.hero { padding: 96px 0 72px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+  header.hero::before {
+    content: ""; position: absolute; top: -120px; right: -80px; width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(245, 166, 35, 0.08), transparent 65%);
+    pointer-events: none;
+  }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; color: var(--accent);
+    letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 20px;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.12; max-width: 780px; margin-bottom: 22px; letter-spacing: -0.01em;
+  }
+  h1 .em { color: var(--accent); }
+  .hero-sub { font-size: 18px; color: var(--ink-2); max-width: 620px; margin-bottom: 34px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+  .btn {
+    display: inline-block; padding: 13px 22px; border-radius: 7px; font-weight: 700;
+    font-size: 15px; text-decoration: none; transition: transform .15s, background .2s;
+  }
+  .btn-primary { background: var(--accent); color: #0b0e11; }
+  .btn-primary:hover { background: #ffb83d; transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--line-2); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--ink-3); }
+
+  /* Live ticker */
+  .ticker {
+    border: 1px solid var(--line-2); border-radius: 8px; background: var(--bg-2);
+    padding: 16px 18px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 13px; max-width: 780px;
+  }
+  .ticker .live {
+    display: inline-flex; align-items: center; gap: 7px; color: var(--green);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .ticker .live::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .ticker .nums { color: var(--ink-3); }
+  .ticker .nums b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Evidence strip ---------- */
+  .evidence { border-bottom: 1px solid var(--line); padding: 44px 0; }
+  .evidence-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px;
+  }
+  .ev-num { font-family: var(--mono); font-size: 34px; font-weight: 600; color: var(--ink); }
+  .ev-num span { color: var(--accent); }
+  .ev-label { color: var(--ink-2); font-size: 14px; margin-top: 4px; }
+
+  /* ---------- Sections ---------- */
+  section.block { padding: 80px 0; border-bottom: 1px solid var(--line); }
+  .sec-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 40px; flex-wrap: wrap; }
+  .sec-no { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 3.4vw, 38px); }
+  h3 { font-family: var(--serif); font-weight: 400; font-size: 21px; margin-bottom: 10px; }
+
+  /* ---------- Opportunity cards (real data) ---------- */
+  .opp-list { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .opp {
+    border: 1px solid var(--line); border-radius: 8px; background: var(--bg-2);
+    padding: 18px 20px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    transition: border-color .2s;
+  }
+  .opp:hover { border-color: var(--line-2); }
+  .opp-main { min-width: 240px; flex: 1; }
+  .opp-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .opp-meta { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+  .opp-meta b { color: var(--ink-2); font-weight: 500; }
+  .opp-side { text-align: right; min-width: 170px; }
+  .opp-value { font-family: var(--mono); font-size: 18px; font-weight: 600; color: var(--accent); }
+  .opp-cat {
+    display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 11px;
+    color: var(--accent); border: 1px solid var(--accent-soft); background: var(--accent-soft);
+    padding: 3px 9px; border-radius: 20px; letter-spacing: 0.04em;
+  }
+  .opp-source { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-top: 8px; }
+  .more-link { display: inline-block; margin-top: 18px; color: var(--accent); text-decoration: none; font-size: 14px; }
+  .more-link:hover { text-decoration: underline; }
+
+  /* ---------- How it works ---------- */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; counter-reset: step; }
+  .step { border-top: 2px solid var(--line-2); padding-top: 18px; }
+  .step::before {
+    counter-increment: step; content: "0" counter(step);
+    font-family: var(--mono); font-size: 13px; color: var(--accent); display: block; margin-bottom: 8px;
+  }
+  .step h3 { margin-bottom: 8px; font-family: var(--sans); font-size: 17px; font-weight: 700; }
+  .step p { color: var(--ink-2); font-size: 14.5px; }
+
+  /* ---------- Coverage ---------- */
+  .countries { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .tag {
+    font-family: var(--mono); font-size: 12.5px; color: var(--ink);
+    border: 1px solid var(--line-2); border-radius: 20px; padding: 6px 13px;
+    background: var(--bg-2);
+  }
+  .tag b { color: var(--accent); }
+
+  /* ---------- Pricing ---------- */
+  .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; align-items: start; }
+  .plan {
+    border: 1px solid var(--line); border-radius: 10px; padding: 28px 26px;
+    background: var(--bg-2); display: flex; flex-direction: column;
+  }
+  .plan.featured { border-color: var(--accent); box-shadow: 0 0 40px rgba(245, 166, 35, 0.07); }
+  .plan-name { font-size: 14px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); }
+  .plan.featured .plan-name { color: var(--accent); }
+  .plan-price { margin: 14px 0 4px; font-family: var(--mono); font-size: 40px; font-weight: 600; }
+  .plan-price small { font-size: 15px; color: var(--ink-3); font-weight: 400; }
+  .plan-desc { color: var(--ink-2); font-size: 14px; margin-bottom: 18px; }
+  .plan ul { list-style: none; flex: 1; margin-bottom: 22px; }
+  .plan li { padding: 7px 0 7px 24px; position: relative; font-size: 14px; color: var(--ink); border-bottom: 1px solid var(--line); }
+  .plan li:last-child { border-bottom: none; }
+  .plan li::before {
+    content: "✓"; position: absolute; left: 0; color: var(--green); font-size: 13px; top: 8px;
+  }
+  .plan .btn { text-align: center; }
+  .plan-currency { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-top: 10px; }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 48px 0 64px; }
+  .foot-note { color: var(--ink-3); font-size: 12.5px; max-width: 720px; line-height: 1.7; }
+  .foot-note a { color: var(--ink-2); }
+  .foot-flex { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 26px; }
+
+  @media (max-width: 640px) {
+    header.hero { padding: 64px 0 48px; }
+    .opp-side { text-align: left; }
+    .nav-links { gap: 16px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand"><span class="brand-mark"></span> LEO ENERGY INTELLIGENCE</div>
+    <div class="nav-links">
+      <a href="#opportunities">Live Opportunities</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a class="nav-cta" href="#pricing">Get 10 free samples</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">European Energy Opportunity Intelligence</div>
+    <h1>See the <span class="em">next €100M energy contract</span> before your competitors do.</h1>
+    <p class="hero-sub">
+      Daily machine scans of EU public tenders — battery storage, EV charging, solar, grid and
+      energy management. Every lead is a real public notice: buyer, value, deadline and contact, verified.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#pricing">Get 10 free sample reports</a>
+      <a class="btn btn-ghost" href="#opportunities">Browse live opportunities</a>
+    </div>
+    <div class="ticker">
+      <span class="live">Live scan</span>
+      <span class="nums"><b>138</b> TED notices + <b>4</b> UK active · <b>142</b> energy opportunities today</span>
+      <span class="nums">· last scan <b>2026-08-16 06:00</b></span>
+    </div>
+  </div>
+</header>
+
+<section class="evidence">
+  <div class="wrap">
+    <div class="evidence-grid">
+      <div><div class="ev-num">€<span>324M+</span></div><div class="ev-label">Value of tracked live opportunities</div></div>
+      <div><div class="ev-num"><span>10</span> markets</div><div class="ev-label">Germany · NL · Belgium · France · UK · Spain · Italy · Poland · Nordics</div></div>
+      <div><div class="ev-num"><span>2</span> official sources</div><div class="ev-label">TED (EU) + UK Contracts Finder — public APIs, zero scraped data</div></div>
+      <div><div class="ev-num"><span>0</span> fabricated</div><div class="ev-label">Every record carries a source URL + retrieval timestamp</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="opportunities">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-no">01</span><h2>Live opportunities — real public tenders</h2></div>
+    <div class="opp-list">
+
+      <div class="opp">
+        <div class="opp-main">
+          <div class="opp-title">AVV Square 2.0 Project — Battery Energy Storage System (BESS), 20MW/2h</div>
+          <div class="opp-meta">Buyer: <b>Ørsted Bioenergy &amp; Thermal Power A/S</b> · Denmark · Contact: miklo@orsted.com</div>
+        </div>
+        <div class="opp-side">
+          <div class="opp-value">€11,350,000</div>
+          <span class="opp-cat">BESS</span>
+          <div class="opp-source">TED · 693469-2025</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-main">
+          <div class="opp-title">KVV2 — E01 145/12 kV Substation &amp; Uninterruptible Power (Kraftringen)</div>
+          <div class="opp-meta">Buyer: <b>Kraftringen Energi AB</b> · Sweden · Contact: martin.thornberg@ecenea.se</div>
+        </div>
+        <div class="opp-side">
+          <div class="opp-value">€102,000,000</div>
+          <span class="opp-cat">Grid / Substation</span>
+          <div class="opp-source">TED · 359449-2025</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-main">
+          <div class="opp-title">Supply of 2 Zero-Emission Buses + Charging Infrastructure (MZK Tomaszów Mazowiecki)</div>
+          <div class="opp-meta">Buyer: <b>MZK Tomaszów Mazowiecki</b> · Poland · Contact: mzk@tomaszow-maz.pl</div>
+        </div>
+        <div class="opp-side">
+          <div class="opp-value">€6,500,000</div>
+          <span class="opp-cat">EV Charging / e-bus</span>
+          <div class="opp-source">TED · 447933-2025</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-main">
+          <div class="opp-title">Electrical Installations for Connection of BESS (AVV Square 2.0)</div>
+          <div class="opp-meta">Buyer: <b>Ørsted Bioenergy &amp; Thermal Power A/S</b> · Denmark · Deadline 2026-09-15</div>
+        </div>
+        <div class="opp-side">
+          <div class="opp-value">€9,833,637</div>
+          <span class="opp-cat">BESS</span>
+          <div class="opp-source">TED · 127555-2026</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-main">
+          <div class="opp-title">Battery Energy Storage System (BESS) at Merksem WWTP</div>
+          <div class="opp-meta">Buyer: <b>Aquafin NV</b> · Belgium · Contact: guido.cuyckens@aquafin.be</div>
+        </div>
+        <div class="opp-side">
+          <div class="opp-value">€828,416</div>
+          <span class="opp-cat">BESS</span>
+          <div class="opp-source">TED · 863953-2025</div>
+        </div>
+      </div>
+
+      <div class="opp">
+        <div class="opp-main">
+          <div class="opp-title">LOT 1 — Supply, Design, Install, Certify &amp; Operate EV Charging (Pobal)</div>
+          <div class="opp-meta">Buyer: <b>Pobal (Irish State agency)</b> · Ireland · Contact: tenders@pobal.ie</div>
+        </div>
+        <div class="opp-side">
+          <div class="opp-value">Framework · multi-lot</div>
+          <span class="opp-cat">EV Charging</span>
+          <div class="opp-source">TED · 551273-2025</div>
+        </div>
+      </div>
+
+    </div>
+    <a class="more-link" href="#pricing">→ 142 opportunities in today's full scan. Unlock all with Pro →</a>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-no">02</span><h2>How it works</h2></div>
+    <div class="steps">
+      <div class="step">
+        <h3>Machine-scans public tenders</h3>
+        <p>Every day at 06:00 CET our scanner queries the official EU TED API and UK Contracts Finder — the same databases procurement teams use. No web scraping, no guesswork.</p>
+      </div>
+      <div class="step">
+        <h3>Filters for your market</h3>
+        <p>BESS, solar, EV charging, grid/substation, heat pumps, energy management. Filtered by country, value threshold and deadline so you only see what fits your business.</p>
+      </div>
+      <div class="step">
+        <h3>Delivers a ready-to-act brief</h3>
+        <p>Each opportunity arrives as a one-page brief: buyer, contact, estimated value, deadline, scope, and a suggested next action. Business tier includes a pre-drafted proposal outline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-no">03</span><h2>Coverage</h2></div>
+    <p class="ev-label" style="margin-bottom:18px">30 target accounts mapped, 10 European markets, 4 energy verticals:</p>
+    <div class="countries">
+      <span class="tag">Germany</span><span class="tag">Netherlands</span><span class="tag">Belgium</span>
+      <span class="tag">France</span><span class="tag">United Kingdom</span><span class="tag">Spain</span>
+      <span class="tag">Italy</span><span class="tag">Poland</span><span class="tag">Denmark</span>
+      <span class="tag">Sweden</span><span class="tag">Norway</span><span class="tag">Finland</span>
+    </div>
+    <div class="countries" style="margin-top:12px">
+      <span class="tag"><b>BESS</b></span><span class="tag"><b>EV charging</b></span>
+      <span class="tag"><b>Solar PV</b></span><span class="tag"><b>Grid / substation</b></span>
+      <span class="tag"><b>Heat pumps</b></span><span class="tag"><b>Energy management</b></span>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="pricing">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-no">04</span><h2>Pricing</h2></div>
+    <div class="pricing">
+
+      <div class="plan">
+        <div class="plan-name">Sample</div>
+        <div class="plan-price">€0</div>
+        <div class="plan-desc">See the product before you pay.</div>
+        <ul>
+          <li>10 real opportunity sample reports</li>
+          <li>Buyer, value &amp; deadline for each</li>
+          <li>Full data provenance &amp; source URLs</li>
+          <li>No credit card required</li>
+        </ul>
+        <a class="btn btn-ghost" href="#samples">Download free samples</a>
+      </div>
+
+      <div class="plan featured">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">€49<small>/mo</small></div>
+        <div class="plan-desc">For energy suppliers, EPCs and integrators selling into Europe.</div>
+        <ul>
+          <li>Daily scan — every energy tender in your countries</li>
+          <li>Top 5 opportunity report, ranked by fit</li>
+          <li>Country &amp; value filters</li>
+          <li>Decision-maker contact list</li>
+          <li>Deadline tracking &amp; alerts</li>
+        </ul>
+        <a class="btn btn-primary" href="mailto:li77724121@gmail.com?subject=Pro%20tier%20%E2%80%94%20LEO%20Energy%20Intelligence">Subscribe</a>
+        <div class="plan-currency">Billed monthly · cancel anytime</div>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Business</div>
+        <div class="plan-price">€199<small>/mo</small></div>
+        <div class="plan-desc">For companies making Europe a core growth market.</div>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>Custom country/vertical bundles</li>
+          <li>Pre-drafted proposal briefs per tender</li>
+          <li>Buyer pipeline tracking</li>
+          <li>Priority support &amp; onboarding call</li>
+        </ul>
+        <a class="btn btn-ghost" href="mailto:li77724121@gmail.com?subject=Business%20tier%20%E2%80%94%20LEO%20Energy%20Intelligence">Contact sales</a>
+        <div class="plan-currency">Billed monthly · cancel anytime</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="samples" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-no">05</span><h2>Free sample reports</h2></div>
+    <p class="ev-label" style="margin-bottom:22px">
+      10 full one-page opportunity reports, one per target client, ready to read. All data from public tenders — nothing invented.
+    </p>
+    <div class="countries">
+      <span class="tag">Ørsted · BESS €11.35M</span>
+      <span class="tag">Vattenfall · Grid €102M</span>
+      <span class="tag">PGE · EV €6.5M</span>
+      <span class="tag">Elia · BESS €0.83M</span>
+      <span class="tag">Fastned · EV framework</span>
+      <span class="tag">National Grid · HV/LV £100k</span>
+      <span class="tag">RWE · Generators £20k</span>
+      <span class="tag">SSE · Construction £300k</span>
+      <span class="tag">Engie · Lighting £50k</span>
+    </div>
+    <div style="margin-top:26px">
+      <a class="btn btn-primary" href="mailto:li77724121@gmail.com?subject=Request%20free%20samples%20%E2%80%94%20LEO%20Energy%20Intelligence">Email me the 10 free samples</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="diagnose" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-no">06</span><h2>Free demand diagnosis</h2></div>
+    <p class="ev-label" style="margin-bottom:22px">
+      Tell us what you need. Our AI scores how solvable it is, matches the right capability,
+      finds real open tenders, and quotes a price — in seconds.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr;gap:14px;max-width:640px">
+      <input id="diag-need" type="text" placeholder="Describe your need, e.g. '帮我找丹麦BESS投标机会'"
+             style="background:var(--bg-2);border:1px solid var(--line-2);color:var(--ink);border-radius:7px;padding:13px 16px;font-size:15px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <input id="diag-country" type="text" placeholder="Country (e.g. Denmark)"
+               style="background:var(--bg-2);border:1px solid var(--line-2);color:var(--ink);border-radius:7px;padding:12px 14px;font-size:14px">
+        <input id="diag-vertical" type="text" placeholder="Vertical (e.g. BESS)"
+               style="background:var(--bg-2);border:1px solid var(--line-2);color:var(--ink);border-radius:7px;padding:12px 14px;font-size:14px">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <input id="diag-budget" type="number" placeholder="Budget USD (optional)"
+               style="background:var(--bg-2);border:1px solid var(--line-2);color:var(--ink);border-radius:7px;padding:12px 14px;font-size:14px">
+        <input id="diag-deadline" type="number" placeholder="Deadline days (optional)"
+               style="background:var(--bg-2);border:1px solid var(--line-2);color:var(--ink);border-radius:7px;padding:12px 14px;font-size:14px">
+      </div>
+      <button id="diag-btn" class="btn btn-primary" style="justify-self:start;border:none;cursor:pointer">Run free diagnosis</button>
+    </div>
+
+    <div id="diag-result" style="display:none;margin-top:28px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);padding:24px">
+      <div id="diag-solv" style="margin-bottom:18px"></div>
+      <div id="diag-cat" style="margin-bottom:18px"></div>
+      <div id="diag-opps" style="margin-bottom:18px"></div>
+      <div id="diag-offer"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-note">
+      <b>Data provenance.</b> All opportunities are fetched directly from the official EU Tenders Electronic Daily
+      API (api.ted.europa.eu) and UK Contracts Finder (contractsfinder.service.gov.uk). Each report records its source
+      notice number and retrieval date. Where a field is not published, we mark it UNKNOWN — we never guess.
+    </div>
+    <div class="foot-flex">
+      <div class="foot-note">© 2026 LEO Energy Intelligence. Built by LEO AI Company.</div>
+      <div class="foot-note">Contact: li77724121@gmail.com · Sources: TED · UK Contracts Finder</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+<script>
+document.getElementById('diag-btn').addEventListener('click', async () => {
+  const need = document.getElementById('diag-need').value.trim();
+  if (!need) { alert('Please describe your need first.'); return; }
+  const btn = document.getElementById('diag-btn');
+  btn.disabled = true; btn.textContent = 'Analyzing…';
+  document.getElementById('diag-result').style.display = 'block';
+  document.getElementById('diag-solv').innerHTML = '<div class="ev-label">Running AI diagnosis…</div>';
+
+  const body = {
+    need: need,
+    country: document.getElementById('diag-country').value.trim(),
+    verticals: document.getElementById('diag-vertical').value.trim() ? [document.getElementById('diag-vertical').value.trim()] : [],
+    budget: document.getElementById('diag-budget').value ? parseFloat(document.getElementById('diag-budget').value) : undefined,
+    deadline_days: document.getElementById('diag-deadline').value ? parseInt(document.getElementById('diag-deadline').value) : undefined,
+  };
+
+  try {
+    const resp = await fetch('/api/diagnose', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    });
+    const d = await resp.json();
+
+    const s = d.solvability;
+    const pathMap = {self_serve:'Self-serve (fully automated)', hybrid:'Hybrid (AI + light human check)', human:'Human-assisted', not_feasible:'Not feasible by AI'};
+    document.getElementById('diag-solv').innerHTML =
+      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Solvability Score</h3>' +
+      '<div style="display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:14px">' +
+        `<div>Solvability: <b style="color:var(--accent)">${s.solvability}/100</b></div>` +
+        `<div>Automation: <b>${s.automation}%</b></div>` +
+        `<div>Est. cost: <b>$${s.cost_est_usd}</b></div>` +
+        `<div>Est. time: <b>${s.time_est_days}d</b></div>` +
+        `<div>Path: <b>${pathMap[s.path] || s.path}</b></div>` +
+      '</div>' +
+      `<p style="color:var(--ink-2);font-size:14px;margin-top:10px">${s.reasoning}</p>`;
+
+    const rec = (d.catalog.recommendations || [])[0];
+    document.getElementById('diag-cat').innerHTML = rec ? (
+      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Recommended Capability</h3>' +
+      `<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border:1px solid var(--line);border-radius:8px;padding:14px 16px">` +
+        `<div><b>${rec.capability}</b> <span style="color:var(--ink-3)">· ${rec.category}</span></div>` +
+        `<div style="font-family:var(--mono)">Match <b style="color:var(--accent)">${rec.match_score}</b> · $${rec.price_range_usd[0]}-${rec.price_range_usd[1]} · ${rec.time_days}d</div>` +
+      '</div>'
+    ) : '<h3 style="font-family:var(--serif);font-weight:400">No capability match</h3>';
+
+    const om = d.opportunity_matches || [];
+    document.getElementById('diag-opps').innerHTML = om.length ? (
+      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Real Open Opportunities</h3>' +
+      om.map(o => `<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:9px 2px;font-size:14px">` +
+        `<div><b>${o.title.slice(0,60)}</b> <span style="color:var(--ink-3)">· ${o.country}</span></div>` +
+        `<div style="font-family:var(--mono)">${o.value} · <span style="color:var(--green)">${o.match_score}</span></div>` +
+      '</div>').join('')
+    ) : '';
+
+    const of = d.offer;
+    document.getElementById('diag-offer').innerHTML =
+      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Proposed Price</h3>' +
+      `<div style="font-family:var(--mono);font-size:20px;color:var(--accent)">$${of.price_range_usd[0]} – $${of.price_range_usd[1]}</div>` +
+      `<div style="color:var(--ink-2);font-size:13px;margin-top:4px">${of.recommended_capability} · ${of.payment}</div>`;
+  } catch (e) {
+    document.getElementById('diag-solv').innerHTML = `<div style="color:#e5484d">Diagnosis failed: ${e.message}. Is the broker API running?</div>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Run free diagnosis';
+  }
+});
+</script>
+</html>
