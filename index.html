@@ -692,6 +692,95 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 <script>
+// ============================================================
+// LEO Digital Broker — 前端诊断引擎 (双模式)
+// 模式1: 本地 API (127.0.0.1:8899) — 完整功能(含真实机会匹配)
+// 模式2: 内置 JS 引擎 — 公网静态版降级, 无需后端
+// 自动探测: 先试 API, 失败则用内置引擎
+// ============================================================
+
+// ---- 内置评分引擎 (与 Python solvability_score 对齐) ----
+const AUTO_HINTS = ["write","draft","generate","summarize","summarise","report","research","translate","transcribe","extract","format","list","compile","analyze","scan","monitor","outline","brief","post","caption","seo","keyword","resume","cv","cover letter","proposal","email","data","csv","json","写","生成","翻译","总结","分析","报告","研究","整理","提取","文案","简历","推广","发布","列表","扫描","监控","大纲","邮件"];
+const HUMAN_HINTS = ["install","repair","visit","on-site","legal advice","medical","surgery","notarize","physical","deliver to","meet in person","signed contract","license","certification body","court","physician","上门","维修","安装","现场","手术","律师","公证","签字","法院","医生","体检","送货","搬家","打扫","理发","按摩"];
+const EXPERT_HINTS = ["engineering design","structural","permit","architect","tax filing","audit","compliance","insurance","litigation","patent","工程设计","结构","许可证","建筑师","报税","审计","合规","保险","诉讼","专利"];
+const BLOCKED = ["违法","偷税","逃税","避税","漏税","洗钱","赌博","诈骗","医疗诊断","手术建议","法律意见","投资承诺","保证收益","移民签证保证","考试作弊","代考","刷单","破解","入侵","黑产","违禁品","毒品","假证","illegal","fraud","money laundering","gambling","medical diagnosis","legal opinion","guaranteed returns","tax evasion","hack","crack"];
+
+// 能力目录 (与 capability_catalog.py 对齐)
+const CAPABILITIES = [
+  {id:"CAP-001",name:"市场研究报告",cat:"research",price:[19,79],time:1.0,kws:["市场","研究","分析报告","行业","market","research","report"]},
+  {id:"CAP-002",name:"招标机会情报",cat:"intelligence",price:[49,199],time:0.2,kws:["招标","机会","投标","扫描","情报","tender","opportunity","bid","intelligence"]},
+  {id:"CAP-003",name:"简历优化",cat:"career",price:[9.9,29],time:0.2,kws:["简历","求职","面试","cv","resume","career","job"]},
+  {id:"CAP-004",name:"文档翻译与摘要",cat:"translation",price:[5,20],time:0.1,kws:["翻译","总结","摘要","translate","summary","contract","合同"]},
+  {id:"CAP-005",name:"内容创作",cat:"content",price:[9.9,39],time:0.1,kws:["文案","帖子","短视频","脚本","文章","post","script","content","video","tiktok"]},
+  {id:"CAP-006",name:"投标书代写",cat:"bidding",price:[99,499],time:2.0,kws:["投标书","标书","proposal","bid","tender response"]},
+  {id:"CAP-007",name:"数据提取/整理",cat:"data",price:[9.9,49],time:0.3,kws:["数据","提取","csv","json","excel","data","extract","parse"]},
+  {id:"CAP-008",name:"个人 AI 助理配置",cat:"setup",price:[29,99],time:1.0,kws:["配置","助理","hermes","openclaw","telegram","setup","assistant"]},
+];
+
+// 内置机会数据 (静态镜像, 公网版演示用; 本地版用 API 实时数据)
+const STATIC_OPPS = [
+  {title:"AVV Square 2.0 Project — Battery Energy Storage System (BESS), 20MW/2h",country:"Denmark",value:"€11,350,000",match:100,contact:"miklo@orsted.com",url:"https://ted.europa.eu/en/notice/-/detail/693469-2025",cat:"BESS"},
+  {title:"KVV2 — E01 145/12 kV Substation & Uninterruptible Power (Kraftringen)",country:"Sweden",value:"€102,000,000",match:95,contact:"martin.thornberg@ecenea.se",url:"https://ted.europa.eu/en/notice/-/detail/359449-2025",cat:"Grid / Substation"},
+  {title:"Supply of 2 Zero-Emission Buses + Charging Infrastructure",country:"Poland",value:"€6,500,000",match:90,contact:"mzk@tomaszow-maz.pl",url:"https://ted.europa.eu/en/notice/-/detail/447933-2025",cat:"EV Charging / e-bus"},
+  {title:"Electrical Installations for Connection of BESS (AVV Square 2.0)",country:"Denmark",value:"€9,833,637",match:95,contact:"miklo@orsted.com",url:"https://ted.europa.eu/en/notice/-/detail/127555-2026",cat:"BESS"},
+  {title:"Battery Energy Storage System (BESS) at Merksem WWTP",country:"Belgium",value:"€828,416",match:80,contact:"guido.cuyckens@aquafin.be",url:"https://ted.europa.eu/en/notice/-/detail/863953-2025",cat:"BESS"},
+  {title:"LOT 1 — Supply, Design, Install, Certify & Operate EV Charging (Pobal)",country:"Ireland",value:"Framework",match:85,contact:"tenders@pobal.ie",url:"https://ted.europa.eu/en/notice/-/detail/551273-2025",cat:"EV Charging"},
+];
+
+function jsScore(need, budget, deadlineDays) {
+  const n = (need||'').toLowerCase();
+  // 合规检查
+  const blocked = BLOCKED.filter(k => n.includes(k));
+  if (blocked.length) return {blocked:true, blocked_reasons:blocked};
+
+  const autoHits = AUTO_HINTS.filter(k => n.includes(k)).length;
+  const humanHits = HUMAN_HINTS.filter(k => n.includes(k)).length;
+  const expertHits = EXPERT_HINTS.filter(k => n.includes(k)).length;
+
+  let automation = Math.max(0, Math.min(100, 45 + autoHits*8 - humanHits*20 - expertHits*10));
+  let solvability = automation * 0.7 + 25;
+  if (humanHits >= 1) solvability = Math.min(solvability, 60);
+  if (expertHits >= 1) solvability = Math.min(solvability, 45);
+
+  const cost = humanHits ? 25 * (1 + Math.min(need.split(' ').length,100)/100) + 50*humanHits
+                         : 0.15 * (1 + Math.min(need.split(' ').length,100)/100);
+  const time = humanHits ? Math.max(1.0, (1 + Math.min(need.split(' ').length,100)/100) * 3.0)
+                         : Math.max(0.1, (1 + Math.min(need.split(' ').length,100)/100) * 1.5);
+
+  let path = solvability >= 75 && automation >= 70 ? 'self_serve' : solvability >= 45 ? 'hybrid' : solvability >= 25 ? 'human' : 'not_feasible';
+
+  let priceLo = Math.round(cost * 1.8 * 100)/100, priceHi = Math.round(cost * 3.5 * 100)/100;
+  if (budget && budget > priceHi) { priceHi = budget; priceLo = Math.min(priceLo, Math.round(budget*0.6*100)/100); }
+
+  return {blocked:false, solvability:Math.round(solvability*10)/10, automation:Math.round(automation*10)/10,
+          cost_est_usd:Math.round(cost*100)/100, time_est_days:Math.round(time*10)/10,
+          price_range_usd:[priceLo, priceHi], path:path};
+}
+
+function jsCatalog(need) {
+  const n = (need||'').toLowerCase();
+  const blocked = BLOCKED.filter(k => n.includes(k));
+  if (blocked.length) return {blocked:true, blocked_reasons:blocked, recommendations:[]};
+  const scored = CAPABILITIES.map(c => {
+    const hits = c.kws.filter(k => n.includes(k)).length;
+    return {...c, match_score: hits>0 ? Math.min(100, 50+hits*15) : 10};
+  }).sort((a,b) => b.match_score - a.match_score);
+  return {blocked:false, recommendations: scored.filter(s=>s.match_score>=50).slice(0,3).length ? scored.filter(s=>s.match_score>=50).slice(0,3) : scored.slice(0,1)};
+}
+
+function jsMatchOpps(country, verticals, minValue) {
+  const c = (country||'').toLowerCase();
+  const v = (verticals||[]).map(x=>x.toLowerCase());
+  return STATIC_OPPS.filter(o => {
+    let score = 50;
+    const oc = o.country.toLowerCase();
+    if (c) score += (oc.includes(c)||c.includes(oc)) ? 25 : -20;
+    if (v.length) score += v.some(x => o.cat.toLowerCase().includes(x) || x.includes(o.cat.toLowerCase())) ? 20 : -15;
+    if (score >= 50) o.match = score;
+    return score >= 50;
+  }).map(o => ({...o, match: Math.max(50, Math.min(100, o.match))})).slice(0,5);
+}
+
 document.getElementById('diag-btn').addEventListener('click', async () => {
   const need = document.getElementById('diag-need').value.trim();
   if (!need) { alert('Please describe your need first.'); return; }
@@ -700,63 +789,71 @@ document.getElementById('diag-btn').addEventListener('click', async () => {
   document.getElementById('diag-result').style.display = 'block';
   document.getElementById('diag-solv').innerHTML = '<div class="ev-label">Running AI diagnosis…</div>';
 
-  const body = {
-    need: need,
-    country: document.getElementById('diag-country').value.trim(),
-    verticals: document.getElementById('diag-vertical').value.trim() ? [document.getElementById('diag-vertical').value.trim()] : [],
-    budget: document.getElementById('diag-budget').value ? parseFloat(document.getElementById('diag-budget').value) : undefined,
-    deadline_days: document.getElementById('diag-deadline').value ? parseInt(document.getElementById('diag-deadline').value) : undefined,
-  };
+  const country = document.getElementById('diag-country').value.trim();
+  const verticals = document.getElementById('diag-vertical').value.trim() ? [document.getElementById('diag-vertical').value.trim()] : [];
+  const budget = document.getElementById('diag-budget').value ? parseFloat(document.getElementById('diag-budget').value) : undefined;
+  const deadline = document.getElementById('diag-deadline').value ? parseInt(document.getElementById('diag-deadline').value) : undefined;
 
+  let d;
+  // 模式1: 尝试本地 API (仅同源时有效)
   try {
-    const resp = await fetch('/api/diagnose', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(body)
-    });
-    const d = await resp.json();
-
-    const s = d.solvability;
-    const pathMap = {self_serve:'Self-serve (fully automated)', hybrid:'Hybrid (AI + light human check)', human:'Human-assisted', not_feasible:'Not feasible by AI'};
-    document.getElementById('diag-solv').innerHTML =
-      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Solvability Score</h3>' +
-      '<div style="display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:14px">' +
-        `<div>Solvability: <b style="color:var(--accent)">${s.solvability}/100</b></div>` +
-        `<div>Automation: <b>${s.automation}%</b></div>` +
-        `<div>Est. cost: <b>$${s.cost_est_usd}</b></div>` +
-        `<div>Est. time: <b>${s.time_est_days}d</b></div>` +
-        `<div>Path: <b>${pathMap[s.path] || s.path}</b></div>` +
-      '</div>' +
-      `<p style="color:var(--ink-2);font-size:14px;margin-top:10px">${s.reasoning}</p>`;
-
-    const rec = (d.catalog.recommendations || [])[0];
-    document.getElementById('diag-cat').innerHTML = rec ? (
-      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Recommended Capability</h3>' +
-      `<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border:1px solid var(--line);border-radius:8px;padding:14px 16px">` +
-        `<div><b>${rec.capability}</b> <span style="color:var(--ink-3)">· ${rec.category}</span></div>` +
-        `<div style="font-family:var(--mono)">Match <b style="color:var(--accent)">${rec.match_score}</b> · $${rec.price_range_usd[0]}-${rec.price_range_usd[1]} · ${rec.time_days}d</div>` +
-      '</div>'
-    ) : '<h3 style="font-family:var(--serif);font-weight:400">No capability match</h3>';
-
-    const om = d.opportunity_matches || [];
-    document.getElementById('diag-opps').innerHTML = om.length ? (
-      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Real Open Opportunities</h3>' +
-      om.map(o => `<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:9px 2px;font-size:14px">` +
-        `<div><b>${o.title.slice(0,60)}</b> <span style="color:var(--ink-3)">· ${o.country}</span></div>` +
-        `<div style="font-family:var(--mono)">${o.value} · <span style="color:var(--green)">${o.match_score}</span></div>` +
-      '</div>').join('')
-    ) : '';
-
-    const of = d.offer;
-    document.getElementById('diag-offer').innerHTML =
-      '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Proposed Price</h3>' +
-      `<div style="font-family:var(--mono);font-size:20px;color:var(--accent)">$${of.price_range_usd[0]} – $${of.price_range_usd[1]}</div>` +
-      `<div style="color:var(--ink-2);font-size:13px;margin-top:4px">${of.recommended_capability} · ${of.payment}</div>`;
-  } catch (e) {
-    document.getElementById('diag-solv').innerHTML = `<div style="color:#e5484d">Diagnosis failed: ${e.message}. Is the broker API running?</div>`;
-  } finally {
-    btn.disabled = false; btn.textContent = 'Run free diagnosis';
+    const resp = await fetch('/api/diagnose', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({need,country,verticals,budget,deadline_days:deadline})});
+    if (resp.ok) { d = await resp.json(); }
+    else { throw new Error('api-status-' + resp.status); }
+  } catch(e) {
+    // 模式2: 内置 JS 引擎 (公网静态版)
+    const solv = jsScore(need, budget, deadline);
+    const cat = jsCatalog(need);
+    d = {
+      solvability: {need, solvability: solv.solvability, automation: solv.automation, cost_est_usd: solv.cost_est_usd,
+                    time_est_days: solv.time_est_days, price_range_usd: solv.price_range_usd, path: solv.path,
+                    blockers: solv.blocked ? solv.blocked_reasons : [], reasoning: solv.blocked ? '合规拦截: '+solv.blocked_reasons.join(',') : ''},
+      catalog: cat,
+      opportunity_matches: jsMatchOpps(country, verticals, undefined),
+      offer: {recommended_capability: cat.recommendations[0] ? cat.recommendations[0].name : '定制服务',
+              price_range_usd: cat.recommendations[0] ? cat.recommendations[0].price.map(p=>Math.round(p*(solv.solvability>=60?1:solv.solvability>=40?0.7:0.5)*100)/100) : [5,29],
+              path: solv.path, payment: 'Stripe 接入后支持在线支付 (当前联系洽谈)'}
+    };
   }
+
+  const s = d.solvability;
+  const pathMap = {self_serve:'Self-serve (fully automated)', hybrid:'Hybrid (AI + light human check)', human:'Human-assisted', not_feasible:'Not feasible by AI'};
+  document.getElementById('diag-solv').innerHTML =
+    '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Solvability Score</h3>' +
+    '<div style="display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:14px">' +
+      `<div>Solvability: <b style="color:var(--accent)">${s.solvability}/100</b></div>` +
+      `<div>Automation: <b>${s.automation}%</b></div>` +
+      `<div>Est. cost: <b>$${s.cost_est_usd}</b></div>` +
+      `<div>Est. time: <b>${s.time_est_days}d</b></div>` +
+      `<div>Path: <b>${pathMap[s.path] || s.path}</b></div>` +
+    '</div>' +
+    `<p style="color:var(--ink-2);font-size:14px;margin-top:10px">${s.reasoning || ''}</p>`;
+
+  const rec = (d.catalog.recommendations || [])[0];
+  document.getElementById('diag-cat').innerHTML = rec ? (
+    '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Recommended Capability</h3>' +
+    `<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border:1px solid var(--line);border-radius:8px;padding:14px 16px">` +
+      `<div><b>${rec.name || rec.capability}</b> <span style="color:var(--ink-3)">· ${rec.cat || rec.category}</span></div>` +
+      `<div style="font-family:var(--mono)">Match <b style="color:var(--accent)">${rec.match_score}</b> · $${(rec.price_range_usd||rec.price).join('-')} · ${rec.time_days||rec.time}d</div>` +
+    '</div>'
+  ) : '<h3 style="font-family:var(--serif);font-weight:400">No capability match</h3>';
+
+  const om = d.opportunity_matches || [];
+  document.getElementById('diag-opps').innerHTML = om.length ? (
+    '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Real Open Opportunities</h3>' +
+    om.map(o => `<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:9px 2px;font-size:14px">` +
+      `<div><b>${(o.title||'').slice(0,60)}</b> <span style="color:var(--ink-3)">· ${o.country}</span></div>` +
+      `<div style="font-family:var(--mono)">${o.value} · <span style="color:var(--green)">${o.match_score||o.match}</span></div>` +
+    '</div>').join('')
+  ) : '';
+
+  const of = d.offer;
+  document.getElementById('diag-offer').innerHTML =
+    '<h3 style="font-family:var(--serif);font-weight:400;margin-bottom:10px">Proposed Price</h3>' +
+    `<div style="font-family:var(--mono);font-size:20px;color:var(--accent)">$${of.price_range_usd[0]} – $${of.price_range_usd[1]}</div>` +
+    `<div style="color:var(--ink-2);font-size:13px;margin-top:4px">${of.recommended_capability} · ${of.payment}</div>`;
+
+  btn.disabled = false; btn.textContent = 'Run free diagnosis';
 });
 </script>
 </html>
