@@ -437,9 +437,13 @@
       <span class="tag">SSE · Construction £300k</span>
       <span class="tag">Engie · Lighting £50k</span>
     </div>
-    <div style="margin-top:26px">
-      <a class="btn btn-primary" href="mailto:li77724121@gmail.com?subject=Request%20free%20samples%20%E2%80%94%20LEO%20Energy%20Intelligence" data-i18n="samples_btn">Email me the 10 free samples</a>
+    <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;max-width:640px">
+      <input id="sample-email" type="email" placeholder="Enter your email to get the samples sent" data-i18n-placeholder="samples_ph"
+             style="flex:1;min-width:240px;background:var(--bg-2);border:1px solid var(--line-2);color:var(--ink);border-radius:7px;padding:13px 16px;font-size:15px">
+      <a class="btn btn-primary" href="leo-energy-samples.zip" download data-i18n="samples_dl">Download free samples now</a>
+      <button id="sample-send" class="btn btn-ghost" style="border:1px solid var(--line-2);background:transparent;color:var(--ink);cursor:pointer" data-i18n="samples_btn">Email me the 10 free samples</button>
     </div>
+    <div id="sample-status" style="margin-top:12px;color:var(--green);font-size:13px;display:none"></div>
   </div>
 </section>
 
@@ -522,7 +526,7 @@ const I18N = {
     p_p_name:"Pro", p_p_desc:"For energy suppliers, EPCs and integrators selling into Europe.", p_p_f1:"Daily scan — every energy tender in your countries", p_p_f2:"Top 5 opportunity report, ranked by fit", p_p_f3:"Country & value filters", p_p_f4:"Decision-maker contact list", p_p_f5:"Deadline tracking & alerts", p_p_btn:"Subscribe",
     p_b_name:"Business", p_b_desc:"For companies making Europe a core growth market.", p_b_f1:"Everything in Pro", p_b_f2:"Custom country/vertical bundles", p_b_f3:"Pre-drafted proposal briefs per tender", p_b_f4:"Buyer pipeline tracking", p_b_f5:"Priority support & onboarding call", p_b_btn:"Contact sales",
     p_bill:"Billed monthly · cancel anytime",
-    samples_desc:"10 full one-page opportunity reports, one per target client, ready to read. All data from public tenders — nothing invented.", samples_btn:"Email me the 10 free samples",
+    samples_desc:"10 full one-page opportunity reports, one per target client, ready to read. All data from public tenders — nothing invented.", samples_btn:"Email me the 10 free samples", samples_ph:"Enter your email to get the samples sent", samples_dl:"Download free samples now",
     diag_desc:"Tell us what you need. Our AI scores how solvable it is, matches the right capability, finds real open tenders, and quotes a price — in seconds.",
     diag_ph_need:"Describe your need, e.g. '帮我找丹麦BESS投标机会'", diag_ph_country:"Country (e.g. Denmark)", diag_ph_vert:"Vertical (e.g. BESS)", diag_ph_budget:"Budget USD (optional)", diag_ph_deadline:"Deadline days (optional)",
     diag_btn:"Run free diagnosis",
@@ -557,7 +561,7 @@ const I18N = {
     p_p_name:"专业版", p_p_desc:"面向向欧洲销售的能源供应商、EPC 和集成商。", p_p_f1:"每日扫描 — 你所在国家的每一个能源招标", p_p_f2:"按匹配度排名的前 5 机会报告", p_p_f3:"国家和金额筛选", p_p_f4:"决策人联系名单", p_p_f5:"截止日期跟踪和提醒", p_p_btn:"订阅",
     p_b_name:"商务版", p_b_desc:"面向将欧洲作为核心增长市场的公司。", p_b_f1:"专业版全部功能", p_b_f2:"定制国家/垂直组合", p_b_f3:"每个招标预写投标简报", p_b_f4:"买家采购管线跟踪", p_b_f5:"优先支持和入驻电话", p_b_btn:"联系销售",
     p_bill:"按月计费 · 随时取消",
-    samples_desc:"10 份完整的一页纸机会报告，每个目标客户一份，可直接阅读。所有数据来自公开招标——绝无虚构。", samples_btn:"邮件发送 10 份免费样例",
+    samples_desc:"10 份完整的一页纸机会报告，每个目标客户一份，可直接阅读。所有数据来自公开招标——绝无虚构。", samples_btn:"邮件发送 10 份免费样例", samples_ph:"输入邮箱，样例报告将发送给你", samples_dl:"立即下载免费样例",
     diag_desc:"告诉我们你需要什么。我们的 AI 会评估可解决程度、匹配正确能力、找到真实公开招标，并在几秒内报价。",
     diag_ph_need:"描述你的需求，例如：'帮我找丹麦BESS投标机会'", diag_ph_country:"国家（例如：丹麦）", diag_ph_vert:"垂直领域（例如：BESS）", diag_ph_budget:"预算美元（可选）", diag_ph_deadline:"截止天数（可选）",
     diag_btn:"运行免费诊断",
@@ -592,7 +596,7 @@ const I18N = {
     p_p_name:"Pro", p_p_desc:"यूरोप में बेचने वाले ऊर्जा आपूर्तिकर्ताओं, EPC और इंटीग्रेटर के लिए।", p_p_f1:"दैनिक स्कैन — आपके देशों में हर ऊर्जा निविदा", p_p_f2:"फ़िट द्वारा शीर्ष 5 अवसर रिपोर्ट", p_p_f3:"देश और मूल्य फ़िल्टर", p_p_f4:"निर्णय-निर्माता संपर्क सूची", p_p_f5:"समयसीमा ट्रैकिंग और अलर्ट", p_p_btn:"सदस्यता लें",
     p_b_name:"Business", p_b_desc:"यूरोप को मुख्य विकास बाजार बनाने वाली कंपनियों के लिए।", p_b_f1:"Pro में सब कुछ", p_b_f2:"कस्टम देश/क्षेत्र बंडल", p_b_f3:"प्रति निविदा पूर्व-मसौदा प्रस्ताव ब्रीफ", p_b_f4:"खरीदार पाइपलाइन ट्रैकिंग", p_b_f5:"प्राथमिकता समर्थन और ऑनबोर्डिंग कॉल", p_b_btn:"बिक्री से संपर्क करें",
     p_bill:"मासिक बिल · कभी भी रद्द करें",
-    samples_desc:"10 पूर्ण एक-पृष्ठ अवसर रिपोर्ट, प्रति लक्ष्य ग्राहक एक, पढ़ने के लिए तैयार। सारा डेटा सार्वजनिक निविदाओं से — कुछ भी आविष्कार नहीं।", samples_btn:"10 मुफ्त नमूने ईमेल करें",
+    samples_desc:"10 पूर्ण एक-पृष्ठ अवसर रिपोर्ट, प्रति लक्ष्य ग्राहक एक, पढ़ने के लिए तैयार। सारा डेटा सार्वजनिक निविदाओं से — कुछ भी आविष्कार नहीं।", samples_btn:"10 मुफ्त नमूने ईमेल करें", samples_ph:"नमूने भेजने के लिए ईमेल दर्ज करें", samples_dl:"अभी मुफ्त नमूने डाउनलोड करें",
     diag_desc:"हमें बताएं आपको क्या चाहिए। हमारा AI मूल्यांकन करता है, सही क्षमता मिलाता है, वास्तविक निविदाएं ढूंढता है और सेकंडों में मूल्य उद्धृत करता है।",
     diag_ph_need:"अपनी आवश्यकता बताएं, जैसे 'डेनमार्क BESS निविदा खोजें'", diag_ph_country:"देश (जैसे डेनमार्क)", diag_ph_vert:"क्षेत्र (जैसे BESS)", diag_ph_budget:"बजट USD (वैकल्पिक)", diag_ph_deadline:"समयसीमा दिन (वैकल्पिक)",
     diag_btn:"मुफ्त निदान चलाएं",
@@ -627,7 +631,7 @@ const I18N = {
     p_p_name:"Pro", p_p_desc:"Para proveedores de energía, EPC e integradores que venden en Europa.", p_p_f1:"Escaneo diario — cada licitación energética en tus países", p_p_f2:"Informe de las 5 mejores oportunidades, clasificadas por ajuste", p_p_f3:"Filtros de país y valor", p_p_f4:"Lista de contactos de decisores", p_p_f5:"Seguimiento de plazos y alertas", p_p_btn:"Suscribirse",
     p_b_name:"Business", p_b_desc:"Para empresas que hacen de Europa un mercado de crecimiento central.", p_b_f1:"Todo en Pro", p_b_f2:"Paquetes personalizados país/vertical", p_b_f3:"Borradores de propuesta por licitación", p_b_f4:"Seguimiento del pipeline de compradores", p_b_f5:"Soporte prioritario y llamada de onboarding", p_b_btn:"Contactar ventas",
     p_bill:"Facturación mensual · cancela cuando quieras",
-    samples_desc:"10 informes completos de una página, uno por cliente objetivo, listos para leer. Todos los datos de licitaciones públicas — nada inventado.", samples_btn:"Envíame las 10 muestras gratis",
+    samples_desc:"10 informes completos de una página, uno por cliente objetivo, listos para leer. Todos los datos de licitaciones públicas — nada inventado.", samples_btn:"Envíame las 10 muestras gratis", samples_ph:"Introduce tu email para recibir las muestras", samples_dl:"Descargar muestras gratis ahora",
     diag_desc:"Cuéntanos qué necesitas. Nuestra IA evalúa qué tan solucionable es, encuentra la capacidad correcta, localiza licitaciones reales y cotiza un precio — en segundos.",
     diag_ph_need:"Describe tu necesidad, p.ej. 'busca licitaciones BESS en Dinamarca'", diag_ph_country:"País (p.ej. Dinamarca)", diag_ph_vert:"Vertical (p.ej. BESS)", diag_ph_budget:"Presupuesto USD (opcional)", diag_ph_deadline:"Días de plazo (opcional)",
     diag_btn:"Ejecutar diagnóstico gratuito",
@@ -662,7 +666,7 @@ const I18N = {
     p_p_name:"Pro", p_p_desc:"Pour les fournisseurs d'énergie, EPC et intégrateurs qui vendent en Europe.", p_p_f1:"Analyse quotidienne — chaque appel d'offres énergétique dans vos pays", p_p_f2:"Rapport des 5 meilleures opportunités, classées par adéquation", p_p_f3:"Filtres pays et valeur", p_p_f4:"Liste de contacts des décideurs", p_p_f5:"Suivi des délais et alertes", p_p_btn:"S'abonner",
     p_b_name:"Business", p_b_desc:"Pour les entreprises faisant de l'Europe un marché de croissance central.", p_b_f1:"Tout dans Pro", p_b_f2:"Bundles pays/vertical personnalisés", p_b_f3:"Brouillons de propositions par appel d'offres", p_b_f4:"Suivi du pipeline acheteurs", p_b_f5:"Support prioritaire et appel d'intégration", p_b_btn:"Contacter les ventes",
     p_bill:"Facturation mensuelle · annulable à tout moment",
-    samples_desc:"10 rapports complets d'une page, un par client cible, prêts à lire. Toutes les données proviennent d'appels d'offres publics — rien d'inventé.", samples_btn:"Envoyez-moi les 10 échantillons gratuits",
+    samples_desc:"10 rapports complets d'une page, un par client cible, prêts à lire. Toutes les données proviennent d'appels d'offres publics — rien d'inventé.", samples_btn:"Envoyez-moi les 10 échantillons gratuits", samples_ph:"Entrez votre email pour recevoir les échantillons", samples_dl:"Télécharger les échantillons gratuits",
     diag_desc:"Dites-nous ce dont vous avez besoin. Notre IA évalue la faisabilité, trouve la bonne capacité, localise des appels d'offres réels et cite un prix — en quelques secondes.",
     diag_ph_need:"Décrivez votre besoin, p.ex. 'chercher des appels d'offres BESS au Danemark'", diag_ph_country:"Pays (p.ex. Danemark)", diag_ph_vert:"Vertical (p.ex. BESS)", diag_ph_budget:"Budget USD (optionnel)", diag_ph_deadline:"Jours de délai (optionnel)",
     diag_btn:"Lancer le diagnostic gratuit",
@@ -690,6 +694,41 @@ document.addEventListener('DOMContentLoaded', () => {
   applyLang(saved);
 });
 </script>
+
+<script>
+// 免费样例索取: 留邮箱 → 本地 API 存 lead; 公网版降级为提示+下载
+document.getElementById('sample-send').addEventListener('click', async () => {
+  const email = document.getElementById('sample-email').value.trim();
+  const statusEl = document.getElementById('sample-status');
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    statusEl.style.color = '#e5484d';
+    statusEl.style.display = 'block';
+    statusEl.textContent = 'Please enter a valid email address.';
+    return;
+  }
+  statusEl.style.color = 'var(--green)';
+  statusEl.style.display = 'block';
+  statusEl.textContent = 'Sending...';
+  try {
+    const resp = await fetch('/api/claim-sample', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email})});
+    if (resp.ok) {
+      statusEl.textContent = '✅ Thank you! The 10 sample reports are on their way to ' + email;
+      // 同时触发下载, 立即拿到
+      const a = document.createElement('a');
+      a.href = 'leo-energy-samples.zip'; a.download = ''; document.body.appendChild(a); a.click(); a.remove();
+    } else {
+      statusEl.textContent = '✅ Got it! Download the samples below now — we will also email them to ' + email;
+      const a = document.createElement('a');
+      a.href = 'leo-energy-samples.zip'; a.download = ''; document.body.appendChild(a); a.click(); a.remove();
+    }
+  } catch(e) {
+    statusEl.textContent = '✅ Got it! Download the samples below now — we will also email them to ' + email;
+    const a = document.createElement('a');
+    a.href = 'leo-energy-samples.zip'; a.download = ''; document.body.appendChild(a); a.click(); a.remove();
+  }
+});
+</script>
+
 </body>
 <script>
 // ============================================================
