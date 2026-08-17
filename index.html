@@ -202,18 +202,25 @@
   <div class="nav-inner">
     <div class="brand"><span class="brand-mark"></span> LEO ENERGY INTELLIGENCE</div>
     <div class="nav-links">
-      <a href="#opportunities">Live Opportunities</a>
-      <a href="#how">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a class="nav-cta" href="#pricing">Get 10 free samples</a>
+      <a href="#opportunities" data-i18n="nav_opp">Live Opportunities</a>
+      <a href="#how" data-i18n="nav_how">How it works</a>
+      <a href="#pricing" data-i18n="nav_price">Pricing</a>
+      <a class="nav-cta" href="#pricing" data-i18n="nav_cta">Get 10 free samples</a>
+      <select id="lang-select" style="background:var(--bg-2);color:var(--ink);border:1px solid var(--line-2);border-radius:6px;padding:6px 8px;font-size:13px;cursor:pointer">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+        <option value="hi">हिन्दी</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+      </select>
     </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="kicker">European Energy Opportunity Intelligence</div>
-    <h1>See the <span class="em">next €100M energy contract</span> before your competitors do.</h1>
+    <div class="kicker" data-i18n="hero_kicker">European Energy Opportunity Intelligence</div>
+    <h1 data-i18n="hero_h1">See the <span class="em">next €100M energy contract</span> before your competitors do.</h1>
     <p class="hero-sub">
       Daily machine scans of EU public tenders — battery storage, EV charging, solar, grid and
       energy management. Every lead is a real public notice: buyer, value, deadline and contact, verified.
@@ -223,9 +230,9 @@
       <a class="btn btn-ghost" href="#opportunities">Browse live opportunities</a>
     </div>
     <div class="ticker">
-      <span class="live">Live scan</span>
+      <span class="live" data-i18n="hero_live">Live scan</span>
       <span class="nums"><b>138</b> TED notices + <b>4</b> UK active · <b>142</b> energy opportunities today</span>
-      <span class="nums">· last scan <b>2026-08-16 06:00</b></span>
+      <span class="nums">· <span data-i18n="hero_lastscan">last scan</span> <b>2026-08-16 06:00</b></span>
     </div>
   </div>
 </header>
@@ -233,22 +240,22 @@
 <section class="evidence">
   <div class="wrap">
     <div class="evidence-grid">
-      <div><div class="ev-num">€<span>324M+</span></div><div class="ev-label">Value of tracked live opportunities</div></div>
-      <div><div class="ev-num"><span>10</span> markets</div><div class="ev-label">Germany · NL · Belgium · France · UK · Spain · Italy · Poland · Nordics</div></div>
-      <div><div class="ev-num"><span>2</span> official sources</div><div class="ev-label">TED (EU) + UK Contracts Finder — public APIs, zero scraped data</div></div>
-      <div><div class="ev-num"><span>0</span> fabricated</div><div class="ev-label">Every record carries a source URL + retrieval timestamp</div></div>
+      <div><div class="ev-num">€<span>324M+</span></div><div class="ev-label" data-i18n="ev_value">Value of tracked live opportunities</div></div>
+      <div><div class="ev-num"><span>10</span> markets</div><div class="ev-label" data-i18n="ev_markets">Germany · NL · Belgium · France · UK · Spain · Italy · Poland · Nordics</div></div>
+      <div><div class="ev-num"><span>2</span> official sources</div><div class="ev-label" data-i18n="ev_sources">TED (EU) + UK Contracts Finder — public APIs, zero scraped data</div></div>
+      <div><div class="ev-num"><span>0</span> fabricated</div><div class="ev-label" data-i18n="ev_fab">Every record carries a source URL + retrieval timestamp</div></div>
     </div>
   </div>
 </section>
 
 <section class="block" id="opportunities">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-no">01</span><h2>Live opportunities — real public tenders</h2></div>
+    <div class="sec-head"><span class="sec-no">01</span><h2 data-i18n="sec_opp">Live opportunities — real public tenders</h2></div>
     <div class="opp-list">
 
       <div class="opp">
         <div class="opp-main">
-          <div class="opp-title">AVV Square 2.0 Project — Battery Energy Storage System (BESS), 20MW/2h</div>
+          <div class="opp-title" data-i18n="opp_title_1">AVV Square 2.0 Project — Battery Energy Storage System (BESS), 20MW/2h</div>
           <div class="opp-meta">Buyer: <b>Ørsted Bioenergy &amp; Thermal Power A/S</b> · Denmark · Contact: miklo@orsted.com</div>
         </div>
         <div class="opp-side">
@@ -260,7 +267,7 @@
 
       <div class="opp">
         <div class="opp-main">
-          <div class="opp-title">KVV2 — E01 145/12 kV Substation &amp; Uninterruptible Power (Kraftringen)</div>
+          <div class="opp-title" data-i18n="opp_title_2">KVV2 — E01 145/12 kV Substation &amp; Uninterruptible Power (Kraftringen)</div>
           <div class="opp-meta">Buyer: <b>Kraftringen Energi AB</b> · Sweden · Contact: martin.thornberg@ecenea.se</div>
         </div>
         <div class="opp-side">
@@ -272,7 +279,7 @@
 
       <div class="opp">
         <div class="opp-main">
-          <div class="opp-title">Supply of 2 Zero-Emission Buses + Charging Infrastructure (MZK Tomaszów Mazowiecki)</div>
+          <div class="opp-title" data-i18n="opp_title_3">Supply of 2 Zero-Emission Buses + Charging Infrastructure (MZK Tomaszów Mazowiecki)</div>
           <div class="opp-meta">Buyer: <b>MZK Tomaszów Mazowiecki</b> · Poland · Contact: mzk@tomaszow-maz.pl</div>
         </div>
         <div class="opp-side">
@@ -284,7 +291,7 @@
 
       <div class="opp">
         <div class="opp-main">
-          <div class="opp-title">Electrical Installations for Connection of BESS (AVV Square 2.0)</div>
+          <div class="opp-title" data-i18n="opp_title_4">Electrical Installations for Connection of BESS (AVV Square 2.0)</div>
           <div class="opp-meta">Buyer: <b>Ørsted Bioenergy &amp; Thermal Power A/S</b> · Denmark · Deadline 2026-09-15</div>
         </div>
         <div class="opp-side">
@@ -296,7 +303,7 @@
 
       <div class="opp">
         <div class="opp-main">
-          <div class="opp-title">Battery Energy Storage System (BESS) at Merksem WWTP</div>
+          <div class="opp-title" data-i18n="opp_title_5">Battery Energy Storage System (BESS) at Merksem WWTP</div>
           <div class="opp-meta">Buyer: <b>Aquafin NV</b> · Belgium · Contact: guido.cuyckens@aquafin.be</div>
         </div>
         <div class="opp-side">
@@ -308,7 +315,7 @@
 
       <div class="opp">
         <div class="opp-main">
-          <div class="opp-title">LOT 1 — Supply, Design, Install, Certify &amp; Operate EV Charging (Pobal)</div>
+          <div class="opp-title" data-i18n="opp_title_6">LOT 1 — Supply, Design, Install, Certify &amp; Operate EV Charging (Pobal)</div>
           <div class="opp-meta">Buyer: <b>Pobal (Irish State agency)</b> · Ireland · Contact: tenders@pobal.ie</div>
         </div>
         <div class="opp-side">
@@ -325,7 +332,7 @@
 
 <section class="block" id="how">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-no">02</span><h2>How it works</h2></div>
+    <div class="sec-head"><span class="sec-no">02</span><h2 data-i18n="sec_how">How it works</h2></div>
     <div class="steps">
       <div class="step">
         <h3>Machine-scans public tenders</h3>
@@ -345,7 +352,7 @@
 
 <section class="block">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-no">03</span><h2>Coverage</h2></div>
+    <div class="sec-head"><span class="sec-no">03</span><h2 data-i18n="sec_cov">Coverage</h2></div>
     <p class="ev-label" style="margin-bottom:18px">30 target accounts mapped, 10 European markets, 4 energy verticals:</p>
     <div class="countries">
       <span class="tag">Germany</span><span class="tag">Netherlands</span><span class="tag">Belgium</span>
@@ -363,7 +370,7 @@
 
 <section class="block" id="pricing">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-no">04</span><h2>Pricing</h2></div>
+    <div class="sec-head"><span class="sec-no">04</span><h2 data-i18n="sec_price">Pricing</h2></div>
     <div class="pricing">
 
       <div class="plan">
@@ -415,7 +422,7 @@
 
 <section class="block" id="samples" style="border-bottom:none">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-no">05</span><h2>Free sample reports</h2></div>
+    <div class="sec-head"><span class="sec-no">05</span><h2 data-i18n="sec_samples">Free sample reports</h2></div>
     <p class="ev-label" style="margin-bottom:22px">
       10 full one-page opportunity reports, one per target client, ready to read. All data from public tenders — nothing invented.
     </p>
@@ -438,7 +445,7 @@
 
 <section class="block" id="diagnose" style="border-bottom:none">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-no">06</span><h2>Free demand diagnosis</h2></div>
+    <div class="sec-head"><span class="sec-no">06</span><h2 data-i18n="sec_diag">Free demand diagnosis</h2></div>
     <p class="ev-label" style="margin-bottom:22px">
       Tell us what you need. Our AI scores how solvable it is, matches the right capability,
       finds real open tenders, and quotes a price — in seconds.
@@ -484,6 +491,98 @@
   </div>
 </footer>
 
+
+<!-- i18n: 5 大语言切换 (en/zh/hi/es/fr) -->
+<script>
+const I18N = {
+  en: {
+    nav_opp:"Live Opportunities", nav_how:"How it works", nav_price:"Pricing", nav_cta:"Get 10 free samples",
+    hero_kicker:"European Energy Opportunity Intelligence", hero_h1:"See the <span class=\"em\">next €100M energy contract</span> before your competitors do.",
+    hero_live:"Live scan", hero_lastscan:"last scan",
+    ev_value:"Value of tracked live opportunities", ev_markets:"Germany · NL · Belgium · France · UK · Spain · Italy · Poland · Nordics",
+    ev_sources:"TED (EU) + UK Contracts Finder — public APIs, zero scraped data", ev_fab:"Every record carries a source URL + retrieval timestamp",
+    sec_opp:"Live opportunities — real public tenders", sec_how:"How it works", sec_cov:"Coverage", sec_price:"Pricing", sec_samples:"Free sample reports", sec_diag:"Free demand diagnosis",
+    opp_title_1:"AVV Square 2.0 Project — Battery Energy Storage System (BESS), 20MW/2h",
+    opp_title_2:"KVV2 — E01 145/12 kV Substation & Uninterruptible Power (Kraftringen)",
+    opp_title_3:"Supply of 2 Zero-Emission Buses + Charging Infrastructure (MZK Tomaszów Mazowiecki)",
+    opp_title_4:"Electrical Installations for Connection of BESS (AVV Square 2.0)",
+    opp_title_5:"Battery Energy Storage System (BESS) at Merksem WWTP",
+    opp_title_6:"LOT 1 — Supply, Design, Install, Certify & Operate EV Charging (Pobal)",
+  },
+  zh: {
+    nav_opp:"实时机会", nav_how:"工作原理", nav_price:"定价", nav_cta:"获取 10 份免费样例",
+    hero_kicker:"欧洲能源机会情报", hero_h1:"在竞争对手之前，看到<span class=\"em\">下一个 1 亿欧元的能源合同</span>。",
+    hero_live:"实时扫描", hero_lastscan:"上次扫描",
+    ev_value:"追踪中的实时机会价值", ev_markets:"德国 · 荷兰 · 比利时 · 法国 · 英国 · 西班牙 · 意大利 · 波兰 · 北欧",
+    ev_sources:"TED（欧盟）+ 英国政府采购 — 官方 API，零抓取数据", ev_fab:"每条记录都带有来源 URL 和检索时间戳",
+    sec_opp:"实时机会 — 真实公开招标", sec_how:"工作原理", sec_cov:"覆盖范围", sec_price:"定价", sec_samples:"免费样例报告", sec_diag:"免费需求诊断",
+    opp_title_1:"AVV Square 2.0 项目 — 电池储能系统（BESS），20MW/2h",
+    opp_title_2:"KVV2 — E01 145/12kV 变电站及不间断电源（Kraftringen）",
+    opp_title_3:"供应 2 辆零排放公交车及充电设施（MZK Tomaszów Mazowiecki）",
+    opp_title_4:"BESS 并网电气安装工程（AVV Square 2.0）",
+    opp_title_5:"Merksem 污水处理厂电池储能系统（BESS）",
+    opp_title_6:"第 1 标段 — 电动汽车充电桩的设计、供应、安装、认证与运营（Pobal）",
+  },
+  hi: {
+    nav_opp:"लाइव अवसर", nav_how:"यह कैसे काम करता है", nav_price:"मूल्य निर्धारण", nav_cta:"10 मुफ्त नमूने पाएं",
+    hero_kicker:"यूरोपीय ऊर्जा अवसर खुफिया", hero_h1:"अपने प्रतिस्पर्धियों से पहले <span class=\"em\">अगला €100M ऊर्जा अनुबंध</span> देखें।",
+    hero_live:"लाइव स्कैन", hero_lastscan:"अंतिम स्कैन",
+    ev_value:"ट्रैक किए गए लाइव अवसरों का मूल्य", ev_markets:"जर्मनी · नीदरलैंड · बेल्जियम · फ्रांस · यूके · स्पेन · इटली · पोलैंड · नॉर्डिक्स",
+    ev_sources:"TED (EU) + UK Contracts Finder — सार्वजनिक API, शून्य स्क्रैप किया डेटा", ev_fab:"हर रिकॉर्ड में स्रोत URL + पुनर्प्राप्ति टाइमस्टैम्प होता है",
+    sec_opp:"लाइव अवसर — वास्तविक सार्वजनिक निविदाएं", sec_how:"यह कैसे काम करता है", sec_cov:"कवरेज", sec_price:"मूल्य निर्धारण", sec_samples:"मुफ्त नमूना रिपोर्ट", sec_diag:"मुफ्त मांग निदान",
+    opp_title_1:"AVV स्क्वायर 2.0 परियोजना — बैटरी ऊर्जा भंडारण प्रणाली (BESS), 20MW/2h",
+    opp_title_2:"KVV2 — E01 145/12 kV सबस्टेशन और निर्बाध बिजली (Kraftringen)",
+    opp_title_3:"2 ज़ीरो-एमिशन बसों की आपूर्ति + चार्जिंग इन्फ्रास्ट्रक्चर (MZK Tomaszów Mazowiecki)",
+    opp_title_4:"BESS के कनेक्शन के लिए विद्युत स्थापना (AVV स्क्वायर 2.0)",
+    opp_title_5:"Merksem WWTP पर बैटरी ऊर्जा भंडारण प्रणाली (BESS)",
+    opp_title_6:"LOT 1 — EV चार्जिंग की आपूर्ति, डिज़ाइन, स्थापना, प्रमाणन और संचालन (Pobal)",
+  },
+  es: {
+    nav_opp:"Oportunidades en vivo", nav_how:"Cómo funciona", nav_price:"Precios", nav_cta:"Obtén 10 muestras gratis",
+    hero_kicker:"Inteligencia de Oportunidades Energéticas Europeas", hero_h1:"Ve el <span class=\"em\">próximo contrato energético de €100M</span> antes que tus competidores.",
+    hero_live:"Escaneo en vivo", hero_lastscan:"último escaneo",
+    ev_value:"Valor de las oportunidades en vivo rastreadas", ev_markets:"Alemania · Países Bajos · Bélgica · Francia · Reino Unido · España · Italia · Polonia · Nórdicos",
+    ev_sources:"TED (UE) + UK Contracts Finder — APIs públicas, cero datos raspados", ev_fab:"Cada registro lleva URL de fuente + marca de tiempo de recuperación",
+    sec_opp:"Oportunidades en vivo — licitaciones públicas reales", sec_how:"Cómo funciona", sec_cov:"Cobertura", sec_price:"Precios", sec_samples:"Informes de muestra gratuitos", sec_diag:"Diagnóstico de demanda gratuito",
+    opp_title_1:"Proyecto AVV Square 2.0 — Sistema de Almacenamiento de Energía en Baterías (BESS), 20MW/2h",
+    opp_title_2:"KVV2 — E01 Subestación 145/12 kV y alimentación ininterrumpida (Kraftringen)",
+    opp_title_3:"Suministro de 2 autobuses de cero emisiones + infraestructura de carga (MZK Tomaszów Mazowiecki)",
+    opp_title_4:"Instalaciones eléctricas para conexión de BESS (AVV Square 2.0)",
+    opp_title_5:"Sistema de almacenamiento de energía en baterías (BESS) en EDAR Merksem",
+    opp_title_6:"LOTE 1 — Suministro, diseño, instalación, certificación y operación de carga de VE (Pobal)",
+  },
+  fr: {
+    nav_opp:"Opportunités en direct", nav_how:"Comment ça marche", nav_price:"Tarifs", nav_cta:"Obtenez 10 échantillons gratuits",
+    hero_kicker:"Intelligence des Opportunités Énergétiques Européennes", hero_h1:"Voyez le <span class=\"em\">prochain contrat énergétique de 100 M€</span> avant vos concurrents.",
+    hero_live:"Analyse en direct", hero_lastscan:"dernière analyse",
+    ev_value:"Valeur des opportunités en direct suivies", ev_markets:"Allemagne · Pays-Bas · Belgique · France · Royaume-Uni · Espagne · Italie · Pologne · Nordiques",
+    ev_sources:"TED (UE) + UK Contracts Finder — API publiques, zéro données scrapées", ev_fab:"Chaque enregistrement porte une URL source + horodatage de récupération",
+    sec_opp:"Opportunités en direct — appels d'offres publics réels", sec_how:"Comment ça marche", sec_cov:"Couverture", sec_price:"Tarifs", sec_samples:"Rapports d'échantillons gratuits", sec_diag:"Diagnostic de demande gratuit",
+    opp_title_1:"Projet AVV Square 2.0 — Système de stockage d'énergie par batterie (BESS), 20MW/2h",
+    opp_title_2:"KVV2 — E01 Poste 145/12 kV et alimentation sans interruption (Kraftringen)",
+    opp_title_3:"Fourniture de 2 bus zéro émission + infrastructure de recharge (MZK Tomaszów Mazowiecki)",
+    opp_title_4:"Installations électriques pour le raccordement BESS (AVV Square 2.0)",
+    opp_title_5:"Système de stockage d'énergie par batterie (BESS) à la STEP de Merksem",
+    opp_title_6:"LOT 1 — Fourniture, conception, installation, certification et exploitation de recharge VE (Pobal)",
+  },
+};
+function applyLang(lang) {
+  const dict = I18N[lang] || I18N.en;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) el.innerHTML = dict[key];
+  });
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('leo_lang', lang); } catch(e) {}
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const sel = document.getElementById('lang-select');
+  let saved = 'en';
+  try { saved = localStorage.getItem('leo_lang') || 'en'; } catch(e) {}
+  if (sel) { sel.value = saved; sel.addEventListener('change', e => applyLang(e.target.value)); }
+  applyLang(saved);
+});
+</script>
 </body>
 <script>
 document.getElementById('diag-btn').addEventListener('click', async () => {
