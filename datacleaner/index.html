@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 数据清洗服务 | AI Data Cleaning Service</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:#0b1020;color:#e8ecf5;line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 20px}
+  .badge{display:inline-block;background:#1c2748;border:1px solid #3b4f8f;color:#9db4ff;border-radius:20px;padding:4px 14px;font-size:13px;margin-bottom:20px}
+  h1{font-size:38px;font-weight:800;margin-bottom:14px;line-height:1.25}
+  h1 span{color:#6ea8ff}
+  .sub{font-size:18px;color:#a8b4d0;margin-bottom:30px}
+  .cta{display:inline-block;background:#2f6bff;color:#fff;padding:14px 32px;border-radius:10px;font-size:17px;font-weight:700;text-decoration:none;margin:8px 8px 0 0}
+  .cta.ghost{background:transparent;border:1px solid #4a5f9e;color:#c9d4f5}
+  .card{background:#141c33;border:1px solid #26345f;border-radius:14px;padding:24px;margin:26px 0}
+  .card h2{font-size:22px;margin-bottom:14px;color:#cfdcff}
+  .steps{display:flex;gap:16px;flex-wrap:wrap}
+  .step{flex:1;min-width:200px;background:#101731;border:1px solid #26345f;border-radius:12px;padding:18px}
+  .step b{color:#6ea8ff}
+  .table{width:100%;border-collapse:collapse;font-size:14px}
+  .table td,.table th{border:1px solid #26345f;padding:8px 10px;text-align:left}
+  .table th{background:#1c2748}
+  .bad{color:#ff8b8b}.good{color:#7ee2a0}
+  .price{display:flex;gap:16px;flex-wrap:wrap}
+  .plan{flex:1;min-width:220px;background:#101731;border:1px solid #26345f;border-radius:12px;padding:20px}
+  .plan.hot{border-color:#2f6bff}
+  .plan b{font-size:26px;color:#fff}
+  .plan small{color:#8fa0cc}
+  .addr{background:#0d1326;border:1px solid #2a3a6e;border-radius:10px;padding:14px;font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;color:#b9c6ea}
+  .foot{margin-top:40px;font-size:13px;color:#6b7aa8;text-align:center}
+  @media(max-width:600px){h1{font-size:29px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">🧹 AI 数据清洗 · 10 分钟交付 · 先款后货</span>
+  <h1>脏数据 → <span>干净表格</span><br>去重 · 标准化 · 提取 · 一键搞定</h1>
+  <p class="sub">帮你清洗 Excel/CSV：重复客户/订单/线索去重、日期/大小写/格式统一、乱表整理成规范表。人工要 2-4 小时，AI 服务 10 分钟。</p>
+  <a class="cta" href="#order">下单（首单 $15）</a>
+  <a class="cta ghost" href="#demo">看清洗效果</a>
+
+  <div class="card" id="demo">
+    <h2>真实清洗效果（实测 7 行脏数据）</h2>
+    <table class="table">
+      <tr><th>清洗前</th><th>清洗后</th></tr>
+      <tr><td class="bad">1,Acme Corp,"  John   Smith ",555-0101,2026/08/01,Active</td><td class="good">1,Acme Corp,John Smith,555-0101,2026-08-01,Active</td></tr>
+      <tr><td class="bad">1,Acme Corp,"  John   Smith ",555-0101,2026/08/01,Active <i>(重复)</i></td><td class="good">（已去重）</td></tr>
+      <tr><td class="bad">2,Beta LLC,Alice Jones,555-0102,2026-08-02,active</td><td class="good">2,Beta LLC,Alice Jones,555-0102,2026-08-02,Active</td></tr>
+      <tr><td class="bad">3,delta llc,Alice Jones,555-0102,2026.08.02,ACTIVE</td><td class="good">3,delta llc,Alice Jones,555-0102,2026-08-02,Active</td></tr>
+    </table>
+    <p style="margin-top:10px;font-size:14px;color:#a8b4d0">✅ 结果：去重 + 内部空格 + 日期格式 + 大小写 全部统一</p>
+  </div>
+
+  <div class="card" id="how">
+    <h2>怎么用</h2>
+    <div class="steps">
+      <div class="step"><b>1.</b> 把 Excel/CSV 发到 Telegram 或邮箱</div>
+      <div class="step"><b>2.</b> 说明你要什么（去重/标准化/提取/整理）</div>
+      <div class="step"><b>3.</b> 付款后 10 分钟交付清洗后文件 + 报告</div>
+    </div>
+  </div>
+
+  <div class="card" id="price">
+    <h2>定价</h2>
+    <div class="price">
+      <div class="plan"><b>免费体验</b><small> 100 行</small><br>先看效果再决定<br>发文件即可</div>
+      <div class="plan hot"><b>$15</b><small> 首单</small><br>≤5000 行<br>去重+标准化+报告</div>
+      <div class="plan"><b>$50</b><small> 标准</small><br>≤5万行<br>含提取/复杂整理</div>
+      <div class="plan"><b>$100</b><small> 专业</small><br>≤50万行 / 多表合并<br>含自定义清洗规则</div>
+    </div>
+    <p style="margin-top:12px;font-size:14px;color:#a8b4d0">交付后 24 小时内免费修正 · 不满意退款</p>
+  </div>
+
+  <div class="card" id="use">
+    <h2>适合什么数据</h2>
+    <div class="steps">
+      <div class="step"><b>CRM/客户表</b><br>重复客户、格式不一的电话/邮箱、大小写混乱</div>
+      <div class="step"><b>订单/对账单</b><br>重复行、日期格式不一、金额文本混排</div>
+      <div class="step"><b>线索/联系人</b><br>多来源合并、去重、统一姓名/公司格式</div>
+      <div class="step"><b>产品/库存/问卷</b><br>分类不一致、空值处理、乱表整理</div>
+    </div>
+  </div>
+
+  <div class="card" id="faq">
+    <h2>常见问题</h2>
+    <p><b>Q：发文件安全吗？</b> 数据仅用于本次清洗，交付后即删除，可签保密。</p>
+    <p><b>Q：多久能交付？</b> 常规 10-30 分钟；复杂多表 ≤24 小时。</p>
+    <p><b>Q：怎么付款？</b> USDT（ERC20/SOL）或支付宝/微信，先款后货，链上确认到账后交付。</p>
+    <p><b>Q：清洗后能得到什么？</b> 干净表格 + 清洗报告（哪些去重/修改了，改了哪些）。</p>
+  </div>
+
+  <div class="card" id="order">
+    <h2>下单 & 收款（先款后货）</h2>
+    <p>联系方式：<b>Telegram</b> @CEOleo_bot ｜ 邮箱 li77724121@gmail.com</p>
+    <div style="margin-top:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <img src="wechat-qr.jpg" alt="微信扫码咨询" style="width:150px;height:150px;border-radius:10px;border:1px solid #26345f">
+      <div style="font-size:14px;color:#a8b4d0">📱 <b style="color:#cfdcff">微信扫码咨询/下单</b><br>国内客户优先微信沟通<br>备注「清洗」快速通过</div>
+    </div>
+    <p>也可以在我们的 X 主页了解服务：<a href="https://x.com/li627011584" style="color:#6ea8ff">@li627011584</a></p>
+    <p>收款（USDT，先款后货，链上确认到账后交付）：</p>
+    <div class="addr">USDT (ERC20/BEP20): 0x7849aa82Be2629c3088F76dF5De9EFD277a9f2c4<br>USDT (SOL): 7cdehfQSKi7LVzJp8DcN4PDyWggURimeNauSmTDY8LMs</div>
+    <p style="margin-top:12px;font-size:14px;color:#a8b4d0">国内客户可用支付宝/微信（联系后给码）。</p>
+  </div>
+
+  <div class="foot">Leo AI Company · AI 数字服务项目 1 · 已上线 X @li627011584 · 一个项目 → 第一笔钱 → 跑通 → 自动化</div>
+</div>
+</body>
+</html>

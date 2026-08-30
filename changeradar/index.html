@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChangeRadar — AI 竞品变化监控 | AI Competitor Monitoring</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:#0b1020; color:#e8ecf5; line-height:1.6; }
+  .wrap { max-width:960px; margin:0 auto; padding:40px 20px; }
+  .badge { display:inline-block; background:#1c2748; border:1px solid #3b4f8f; color:#9db4ff; border-radius:20px; padding:4px 14px; font-size:13px; margin-bottom:20px; }
+  h1 { font-size:40px; font-weight:800; margin-bottom:14px; line-height:1.25; }
+  h1 span { color:#6ea8ff; }
+  .sub { font-size:18px; color:#a8b4d0; margin-bottom:30px; }
+  .cta { display:inline-block; background:#2f6bff; color:#fff; padding:14px 32px; border-radius:10px; font-size:17px; font-weight:700; text-decoration:none; margin:8px 8px 0 0; }
+  .cta.ghost { background:transparent; border:1px solid #4a5f9e; color:#c9d4f5; }
+  .card { background:#141c33; border:1px solid #26345f; border-radius:14px; padding:24px; margin:26px 0; }
+  .card h2 { font-size:22px; margin-bottom:14px; color:#cfdcff; }
+  .steps { display:flex; gap:16px; flex-wrap:wrap; }
+  .step { flex:1; min-width:200px; background:#101731; border:1px solid #26345f; border-radius:12px; padding:18px; }
+  .step b { color:#6ea8ff; }
+  .sample { background:#0d1326; border:1px solid #2a3a6e; border-radius:10px; padding:16px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; white-space:pre-wrap; color:#b9c6ea; }
+  .price { display:flex; gap:16px; flex-wrap:wrap; }
+  .plan { flex:1; min-width:220px; background:#101731; border:1px solid #26345f; border-radius:12px; padding:20px; }
+  .plan.hot { border-color:#2f6bff; }
+  .plan b { font-size:26px; color:#fff; }
+  .plan small { color:#8fa0cc; }
+  .form { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .form input { flex:1; min-width:220px; padding:12px 16px; border-radius:10px; border:1px solid #3b4f8f; background:#0d1326; color:#fff; font-size:15px; }
+  .foot { margin-top:40px; font-size:13px; color:#6b7aa8; text-align:center; }
+  @media(max-width:600px){ h1{font-size:30px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">🧭 AI 竞品变化监控 · 0 门槛免费试用</span>
+  <h1>竞品<u>变了什么</u>，<span>AI 替你盯</span>，<br>还告诉你<u>意味着什么</u></h1>
+  <p class="sub">ChangeRadar 每天自动监控竞品定价页/产品页，AI 分析变化与业务影响，推送 Telegram。<br>不是"变了"，而是"竞品降价 8%、上了新功能、你该怎么做"。</p>
+  <a class="cta" href="#try">免费试用（前 10 位）</a>
+  <a class="cta ghost" href="#sample">看样例报告</a>
+
+  <div class="card" id="how">
+    <h2>怎么用</h2>
+    <div class="steps">
+      <div class="step"><b>1.</b> 填你的竞品网址（定价页/产品页/关键页面）</div>
+      <div class="step"><b>2.</b> AI 每天抓取并分析：价格、功能、页面变化 + 业务影响</div>
+      <div class="step"><b>3.</b> 结论推送到 Telegram，中英双语，10 秒读懂</div>
+    </div>
+  </div>
+
+  <div class="card" id="sample">
+    <h2>真实样例报告（10 秒自动生成）</h2>
+    <div class="sample">🔍 ChangeRadar 竞品情报 — firecrawl.dev/pricing
+📄 页面类型: pricing | 公司: Firecrawl
+🎯 定位: Transparent, flexible pricing for developers
+📦 产品: Web scraping API, Crawling API, Search API...
+💰 价格: Free $0/1k credits · Hobby $16/5k · Standard $83/100k · Growth $333/500k · Scale $599/1M
+✅ 优势: Free tier, credit透明, 分档灵活
+⚠️ 弱点: credits不滚动, 无按次付费
+📢 CTA: Subscribe</div>
+  </div>
+
+  <div class="card" id="price">
+    <h2>定价</h2>
+    <div class="price">
+      <div class="plan"><b>$19</b><small>/月</small><br>5 个监控目标<br>每日 AI 报告<br>Telegram 推送</div>
+      <div class="plan hot"><b>$49</b><small>/月</small><br>20 个监控目标<br>实时告警 + 周报<br>中英双语 · 团队共享</div>
+    </div>
+  </div>
+
+  <div class="card" id="try">
+    <h2>免费试用（前 10 位，不绑卡）</h2>
+    <p>留下邮箱，我免费帮你配置 2 个竞品监控，24 小时内给你第一份 AI 情报报告。</p>
+    <form class="form" onsubmit="return false;">
+      <input id="email" type="email" placeholder="your@email.com" required>
+      <a class="cta" href="mailto:li77724121@gmail.com?subject=ChangeRadar%20%E5%85%8D%E8%B4%B9%E8%AF%95%E7%94%A8&body=%E6%88%91%E6%83%B3%E5%85%8D%E8%B4%B9%E8%AF%95%E7%94%A8%20ChangeRadar">提交（或用邮箱联系）</a>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>微信咨询</h2>
+    <p>国内客户扫码加微信，直接沟通需求、确认监控目标、安排免费试用。</p>
+    <div style="margin-top:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <img src="wechat-qr.jpg" alt="微信扫码咨询" style="width:150px;height:150px;border-radius:10px;border:1px solid #26345f">
+      <div style="font-size:14px;color:#a8b4d0">📱 <b style="color:#cfdcff">微信扫码咨询/试用</b><br>备注「Radar」快速通过<br>Telegram 也可：@CEOleo_bot</div>
+    </div>
+  </div>
+
+  <div class="foot">ChangeRadar · Leo AI Company · 数据本地化 · 免费模型 · 每天自动汇报</div>
+</div>
+</body>
+</html>
